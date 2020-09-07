@@ -13,9 +13,12 @@
 		8E8449242506297A0025514F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E8449222506297A0025514F /* Main.storyboard */; };
 		8E844926250629830025514F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E844925250629830025514F /* Assets.xcassets */; };
 		8E844929250629830025514F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E844927250629830025514F /* LaunchScreen.storyboard */; };
+		F0BDBC922E1F719E962D444D /* Pods_BUMN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B345512A711C31AA914D408 /* Pods_BUMN.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B345512A711C31AA914D408 /* Pods_BUMN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BUMN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D17BBB34DFAE7D65D9234D1 /* Pods-BUMN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BUMN.debug.xcconfig"; path = "Target Support Files/Pods-BUMN/Pods-BUMN.debug.xcconfig"; sourceTree = "<group>"; };
 		8E8449192506297A0025514F /* BUMN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BUMN.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E84491C2506297A0025514F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E84491E2506297A0025514F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +27,7 @@
 		8E844925250629830025514F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E844928250629830025514F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8E84492A250629830025514F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9CAB1B8BB47E3973F9EF2EC2 /* Pods-BUMN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BUMN.release.xcconfig"; path = "Target Support Files/Pods-BUMN/Pods-BUMN.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0BDBC922E1F719E962D444D /* Pods_BUMN.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +47,8 @@
 			children = (
 				8E84491B2506297A0025514F /* BUMN */,
 				8E84491A2506297A0025514F /* Products */,
+				D4C5F231712493432AC7F25F /* Pods */,
+				B7196B6DBE14797B09A37A0E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +74,24 @@
 			path = BUMN;
 			sourceTree = "<group>";
 		};
+		B7196B6DBE14797B09A37A0E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0B345512A711C31AA914D408 /* Pods_BUMN.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D4C5F231712493432AC7F25F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1D17BBB34DFAE7D65D9234D1 /* Pods-BUMN.debug.xcconfig */,
+				9CAB1B8BB47E3973F9EF2EC2 /* Pods-BUMN.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,9 +99,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8E84492D250629830025514F /* Build configuration list for PBXNativeTarget "BUMN" */;
 			buildPhases = (
+				AAF953E9DD80EFA523C67DB4 /* [CP] Check Pods Manifest.lock */,
 				8E8449152506297A0025514F /* Sources */,
 				8E8449162506297A0025514F /* Frameworks */,
 				8E8449172506297A0025514F /* Resources */,
+				4FA8CE30C0D0FB712F731567 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -132,6 +159,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4FA8CE30C0D0FB712F731567 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BUMN/Pods-BUMN-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BUMN/Pods-BUMN-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BUMN/Pods-BUMN-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AAF953E9DD80EFA523C67DB4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BUMN-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8E8449152506297A0025514F /* Sources */ = {
@@ -282,6 +351,7 @@
 		};
 		8E84492E250629830025514F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1D17BBB34DFAE7D65D9234D1 /* Pods-BUMN.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -300,6 +370,7 @@
 		};
 		8E84492F250629830025514F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9CAB1B8BB47E3973F9EF2EC2 /* Pods-BUMN.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
