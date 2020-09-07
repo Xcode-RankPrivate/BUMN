@@ -221,9 +221,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        let cell = MLCell()
         
         cell.selectionStyle = .none
+        
+        cell.dict = moviesToShow[indexPath.row] as? NSDictionary
+        
+        
         
         return cell
     }
@@ -255,12 +259,26 @@ class MLCell : UITableViewCell {
     
     var dict : NSDictionary!
     
+    var releaseDateL : UILabel!
     
+    let fSW = UIScreen.main.bounds.width
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        imageView!.frame = CGRect(x: 10, y: 10, width: 120, height: 80)
         
+        imageView?.contentMode = .scaleAspectFill
+        
+        textLabel!.frame = CGRect(x: 140, y: 10, width: fSW - 150, height: 60)
+        
+        textLabel?.numberOfLines = 0
+        textLabel?.font = UIFont.systemFont(ofSize: 15)
+        releaseDateL = UILabel(frame: CGRect(x: 140, y: 70, width: fSW - 150, height: 20))
+        contentView.addSubview(releaseDateL)
+        
+        releaseDateL.textAlignment = .right
+        releaseDateL.font = UIFont.systemFont(ofSize: 14)
         
     }
     
