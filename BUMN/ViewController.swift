@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import JGProgressHUD
+import SkeletonView
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -68,6 +69,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         movieListTV.delegate = self
         movieListTV.dataSource = self
+        movieListTV.register(MLCell.self, forCellReuseIdentifier: "cell")
         
     }
     
@@ -220,14 +222,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return CGFloat(100)
     }
     
+    let imageAPI = "https://image.tmdb.org/t/p/w500"
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = MLCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MLCell
         
         cell.selectionStyle = .none
         
-        cell.dict = moviesToShow[indexPath.row] as? NSDictionary
+        cell.dict = JSON(moviesToShow[indexPath.row])
         
+        downloadImage(from: URL(string: "\(imageAPI)\(cell.dict["poster_path"].stringValue)")!, iV: cell.imageV)
         
+        if cell.dict["title"].stringValue == cell.dict["original_title"].stringValue {
+            cell.titleL.text = cell.dict["title"].stringValue
+        }else{
+            cell.titleL.text = cell.dict["title"].stringValue + " (\(cell.dict["original_title"].stringValue))"
+        }
+        
+        cell.releaseDateL.text = "Ratings : \(cell.dict["vote_average"].stringValue.prefix(3)) Released on : \(cell.dict["release_date"].stringValue)"
         
         return cell
     }
@@ -248,6 +260,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
     }
+    
+    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    }
+    
+    func downloadImage(from url: URL, iV: UIImageView) {
+        print("Download Started")
+        
+        getData(from: url) { (data, response, error) in
+            if error == nil {
+                print("should show image")
+                DispatchQueue.main.async {
+                    iV.image = UIImage(data: data!)
+                }
+            }else{
+                print("image error -> \(error!.localizedDescription) : \(url)")
+            }
+        }
+    }
 
 }
 
@@ -257,28 +288,34 @@ class GButton : UIButton {
 
 class MLCell : UITableViewCell {
     
-    var dict : NSDictionary!
+    var dict : JSON!
+    var imageV : UIImageView!
+    var titleL, releaseDateL : UILabel!
     
-    var releaseDateL : UILabel!
-    
-    let fSW = UIScreen.main.bounds.width
+    var fWidth = UIScreen.main.bounds.width - 40
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        imageView!.frame = CGRect(x: 10, y: 10, width: 120, height: 80)
+        imageV = UIImageView(frame: CGRect(x: 10, y: 10, width: 120, height: 80))
+        contentView.addSubview(imageV)
         
-        imageView?.contentMode = .scaleAspectFill
+        imageV.contentMode = .scaleAspectFill
+        imageV.layer.masksToBounds = true
         
-        textLabel!.frame = CGRect(x: 140, y: 10, width: fSW - 150, height: 60)
+        titleL = UILabel(frame: CGRect(x: 140, y: 10, width: fWidth - 150, height: 60))
+        contentView.addSubview(titleL)
         
-        textLabel?.numberOfLines = 0
-        textLabel?.font = UIFont.systemFont(ofSize: 15)
-        releaseDateL = UILabel(frame: CGRect(x: 140, y: 70, width: fSW - 150, height: 20))
+        titleL.numberOfLines = 0
+        titleL.font = UIFont.systemFont(ofSize: 15)
+        titleL.adjustsFontSizeToFitWidth = true
+        
+        releaseDateL = UILabel(frame: CGRect(x: 140, y: 70, width: fWidth - 150, height: 20))
         contentView.addSubview(releaseDateL)
         
         releaseDateL.textAlignment = .right
         releaseDateL.font = UIFont.systemFont(ofSize: 14)
+        releaseDateL.adjustsFontSizeToFitWidth = true
         
     }
     
