@@ -23,8 +23,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     let hud = JGProgressHUD(style: .dark)
     
-    let defaults = UserDefaults.standard
-    
     let fSW = UIScreen.main.bounds.width
     let fSH = UIScreen.main.bounds.height
     let nTopSpace : CGFloat = 20 // top (iphone X <) spacing
@@ -222,6 +220,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return CGFloat(100)
     }
     
+    var dictToSend : JSON!
+    var imageToSend : UIImage!
+    var nameToSend : String!
+    var ratingsToSend : String!
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let cell = tableView.cellForRow(at: indexPath) as! MLCell
+        
+        dictToSend = cell.dict
+        imageToSend = cell.imageV.image
+        nameToSend = cell.titleL.text
+        ratingsToSend = cell.releaseDateL.text
+        
+        performSegue(withIdentifier: "to_detail", sender: self)
+        
+    }
+    
     let imageAPI = "https://image.tmdb.org/t/p/w500"
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -278,6 +294,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 print("image error -> \(error!.localizedDescription) : \(url)")
             }
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "to_detail" {
+            let nvc = segue.destination as! DetailViewController
+            nvc.dictToShow = dictToSend
+            nvc.imageOfMovie = imageToSend
+            nvc.nameOfMovie = nameToSend
+            nvc.ratingsRelease = ratingsToSend
+        }
+        
     }
 
 }

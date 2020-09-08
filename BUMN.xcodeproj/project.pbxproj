@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E1E3E37250757CF00852034 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1E3E36250757CF00852034 /* DetailViewController.swift */; };
 		8E84491D2506297A0025514F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E84491C2506297A0025514F /* AppDelegate.swift */; };
 		8E84491F2506297A0025514F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E84491E2506297A0025514F /* SceneDelegate.swift */; };
 		8E8449212506297A0025514F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8449202506297A0025514F /* ViewController.swift */; };
@@ -19,6 +20,7 @@
 /* Begin PBXFileReference section */
 		0B345512A711C31AA914D408 /* Pods_BUMN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BUMN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D17BBB34DFAE7D65D9234D1 /* Pods-BUMN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BUMN.debug.xcconfig"; path = "Target Support Files/Pods-BUMN/Pods-BUMN.debug.xcconfig"; sourceTree = "<group>"; };
+		8E1E3E36250757CF00852034 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		8E8449192506297A0025514F /* BUMN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BUMN.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E84491C2506297A0025514F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E84491E2506297A0025514F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				8E84491E2506297A0025514F /* SceneDelegate.swift */,
 				8E8449202506297A0025514F /* ViewController.swift */,
 				8E8449222506297A0025514F /* Main.storyboard */,
+				8E1E3E36250757CF00852034 /* DetailViewController.swift */,
 				8E844925250629830025514F /* Assets.xcassets */,
 				8E844927250629830025514F /* LaunchScreen.storyboard */,
 				8E84492A250629830025514F /* Info.plist */,
@@ -88,7 +91,6 @@
 				1D17BBB34DFAE7D65D9234D1 /* Pods-BUMN.debug.xcconfig */,
 				9CAB1B8BB47E3973F9EF2EC2 /* Pods-BUMN.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -210,6 +212,7 @@
 				8E8449212506297A0025514F /* ViewController.swift in Sources */,
 				8E84491D2506297A0025514F /* AppDelegate.swift in Sources */,
 				8E84491F2506297A0025514F /* SceneDelegate.swift in Sources */,
+				8E1E3E37250757CF00852034 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
