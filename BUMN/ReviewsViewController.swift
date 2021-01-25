@@ -8,9 +8,13 @@
 
 import UIKit
 import SwiftyJSON
+import Alamofire
 
 class ReviewsViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    var pageNumNow = 2 //start with 2 because previous already 1
+    var linkForNextPage = ""
+    var movieId = ""
     
     var reviewsArrayToShow : [JSON] = []
     
@@ -81,17 +85,28 @@ class ReviewsViewController : UIViewController, UITableViewDataSource, UITableVi
         
         cell.dict = reviewsArrayToShow[indexPath.row]
         
-        downloadImage(from: URL(string: "\(avatarAPI)\(cell.dict["author_details"]["avatar_path"].stringValue)")!, iV: cell.imageV)
+        var avatarUrlString = cell.dict["author_details"]["avatar_path"].stringValue
+        
+        print(avatarUrlString)
+        
+        if avatarUrlString.contains("http") {
+            
+            if avatarUrlString.prefix(1) != "h" {
+                avatarUrlString = String(avatarUrlString.suffix(avatarUrlString.count - 1))
+            }
+            
+            downloadImage(from: URL(string: avatarUrlString)!, iV: cell.imageV)
+        }else{
+            downloadImage(from: URL(string: "\(avatarAPI)\(cell.dict["author_details"]["avatar_path"].stringValue)")!, iV: cell.imageV)
+        }
         
         cell.nameL.text = cell.dict["author"].stringValue + "\n(Tap to read review)"
         
         if cell.dict["author_details"]["rating"].stringValue != "" {
-            cell.releaseDateL.text = "Ratings : \(cell.dict["author_details"]["rating"].stringValue)"//" Released on : \(cell.dict["updated_at"].stringValue)"
+            cell.releaseDateL.text = "Ratings : \(cell.dict["author_details"]["rating"].stringValue)"
         }else{
             cell.releaseDateL.text = "No Ratings"
         }
-        
-        
         
         return cell
     }
@@ -104,6 +119,69 @@ class ReviewsViewController : UIViewController, UITableViewDataSource, UITableVi
         alertVC.addAction(UIAlertAction(title: "Oh, I See", style: .default, handler: nil))
         present(alertVC, animated: false, completion: nil)
         
+    }
+    
+    var is_fetchingReviews = false
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        if indexPath.row >= ((pageNumNow-1) * 20) - 5 && is_fetchingReviews == false  {
+            print("please wait..1")
+            is_fetchingReviews = true
+            
+            getNextReviews(pageNum: pageNumNow)
+            
+        }else if indexPath.row == reviewsArrayToShow.count - 1 {
+            print("please wait..2")
+        }
+        
+    }
+    
+    var no_reviewsLeft = false
+    
+    func getNextReviews(pageNum: Int) {
+        
+        if no_reviewsLeft == true {
+            return
+        }
+        
+        let getNextReviewsAPI = "https://api.themoviedb.org/3/movie/\(movieId)/reviews?api_key=\(api_key)&language=en-US&page=\(pageNum)"
+        print(getNextReviewsAPI)
+        
+        AF.request(getNextReviewsAPI).responseJSON(completionHandler: { (response) in
+            
+            self.is_fetchingReviews = false
+            
+            switch response.result {
+            case .success:
+                // get json
+                let jsonData = JSON(response.data!)
+                
+                if jsonData["results"].arrayValue.count == 0 {
+                    //some sort of error appears, best solution to set no_moviesLeft = true
+                    self.no_reviewsLeft = true
+                }else{
+                    self.reviewsArrayToShow.append(contentsOf: jsonData["results"].arrayValue)//.addObjects(from: jsonData["results"].arrayValue)
+                    self.reviewsListTV.reloadData()
+                    
+                    //no more movies to fetch, should stop fetching
+                    if jsonData["page"].intValue >= jsonData["total_pages"].intValue {
+                        self.no_reviewsLeft = true
+                    }else{
+                        self.pageNumNow += 1
+                    }
+                    
+                }
+                
+                print(jsonData)
+                print("Total reviews present = \(self.reviewsArrayToShow.count)")
+                break
+            case .failure(let error):
+                print("error -> \(error.localizedDescription)")
+                break
+            }
+            
+        })
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -115,6 +115,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 break
             case .failure(let error):
                 print("error -> \(error.localizedDescription)")
+                
+                self.showError(title: "Movie List Error", msg: error.localizedDescription)
                 break
             }
             
@@ -147,7 +149,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             case .failure(let error):
                 // error
                 print("error -> \(error.localizedDescription)")
-                self.showError(title: "Genre List", msg: error.localizedDescription)
+                
+                let alertVC = UIAlertController(title: "Genre List Error", message: error.localizedDescription + "\n\nYou may choose to retry.", preferredStyle: .alert)
+                alertVC.addAction(UIAlertAction(title: "retry", style: .default, handler: { (alert) in
+                    self.getSetGenres()
+                }))
+                self.present(alertVC, animated: true, completion: nil)
+                
                 break
                 
             }

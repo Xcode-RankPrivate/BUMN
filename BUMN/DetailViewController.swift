@@ -189,6 +189,9 @@ class DetailViewController : UIViewController {
                 
                 self.showError(title: "Youtube Trailer Error", msg: "\(error.localizedDescription)")
                 
+                self.videoContainer.text = "Error loading movie\ntrailer.."
+                webView.isHidden = true
+                
                 break
             }
             
@@ -197,6 +200,7 @@ class DetailViewController : UIViewController {
     }
     
     var reviewsForMovie : [JSON] = []
+    var nextReviewPageNum = 1
     
     var hud2 = JGProgressHUD(style: .dark)
     
@@ -224,6 +228,10 @@ class DetailViewController : UIViewController {
                     
                 }else{
                     
+                    if jsonData["page"].intValue < jsonData["total_pages"].intValue {
+                        self.nextReviewPageNum = jsonData["page"].intValue + 1
+                    }
+                    
                     self.reviewsForMovie = jsonData["results"].arrayValue
                     self.performSegue(withIdentifier: "to_reviews", sender: self)
                     
@@ -240,7 +248,6 @@ class DetailViewController : UIViewController {
             
         })
         
-        //showError(title: "Sorry Unimplemented", msg: "Show Reviews would be the same as the tableview at home screen. The only difference is that reviews can be long or can be short. I would use a UIButton on each tableviewcell and set height of cell to 50. When user taps on cell, a popup will show the whole content of the review.", end: "Ok, I Understand.")
     }
     
     @objc func go_back(sender: UIButton) {
@@ -261,6 +268,8 @@ class DetailViewController : UIViewController {
         if segue.identifier == "to_reviews" {
             let nvc = segue.destination as! ReviewsViewController
             nvc.reviewsArrayToShow = reviewsForMovie
+            nvc.movieId = dictToShow["id"].stringValue
+            nvc.pageNumNow = nextReviewPageNum
         }
         
     }
