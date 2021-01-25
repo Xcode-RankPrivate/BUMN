@@ -12,14 +12,14 @@ import SwiftyJSON
 import JGProgressHUD
 import SkeletonView
 
+let api_key = "0cb44612369f23a470eb49084edad991"
+
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var genres : NSArray = []
     var moviesToShow : NSMutableArray = []
     
     var genreButtons : NSArray = []
-    
-    let api_key = "0cb44612369f23a470eb49084edad991"
     
     let hud = JGProgressHUD(style: .dark)
     
@@ -84,8 +84,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             hud.show(in: view)
         }
         
-        let getMoviesListAPI = "https://api.themoviedb.org/3/discover/movie?api_key=\(api_key)&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=\(pageNum)&with_genres=\(genreID)"
-        
+        let getMoviesListAPI = "https://api.themoviedb.org/3/discover/movie?api_key=\(api_key)&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=true&page=\(pageNum)&with_genres=\(genreID)"
+        print(getMoviesListAPI)
         AF.request(getMoviesListAPI).responseJSON(completionHandler: { (response) in
             
             self.hud.dismiss()
@@ -281,13 +281,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
     }
     
+    let userDefaults = UserDefaults.standard
+    
     func downloadImage(from url: URL, iV: UIImageView) {
+        
+        if userDefaults.object(forKey: "\(url.absoluteString)") != nil {
+            iV.image = UIImage(data: userDefaults.object(forKey: "\(url.absoluteString)") as! Data)
+            print("from userdefaults")
+            return
+        }
+        
         print("Download Started")
         
         getData(from: url) { (data, response, error) in
             if error == nil {
                 print("should show image")
                 DispatchQueue.main.async {
+                    self.userDefaults.set(data, forKey: "\(url.absoluteString)")
                     iV.image = UIImage(data: data!)
                 }
             }else{

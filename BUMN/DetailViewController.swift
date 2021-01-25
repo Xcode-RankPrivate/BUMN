@@ -8,6 +8,9 @@
 
 import UIKit
 import SwiftyJSON
+import WebKit
+import Alamofire
+import JGProgressHUD
 
 class DetailViewController : UIViewController {
     
@@ -27,6 +30,8 @@ class DetailViewController : UIViewController {
     var dictToShow : JSON!
     
     var videoContainer : UILabel!
+    
+    let hud = JGProgressHUD(style: .dark)
     
     override func viewDidLoad() {
         
@@ -111,6 +116,15 @@ class DetailViewController : UIViewController {
             videoContainer.text = "Video Preview\nNot Available!\n\nIf content is Youtube,\nwould use UIWebview."
         }
         
+        videoContainer.isUserInteractionEnabled = true
+        videoContainer.text = "Youtube Trailer is loading\n\nPlease Wait.."
+        
+        let webView = WKWebView(frame: CGRect(x: 15, y: 15, width: videoContainer.frame.width - 30, height: videoContainer.frame.height - 30))
+        videoContainer.addSubview(webView)
+        
+        hud.show(in: videoContainer)
+        callVideoAPI(webView: webView, id: dictToShow["id"].stringValue)
+        
         nextY += videoContainer.frame.height + 10
         
         scrollView.contentSize = CGSize(width: fSW, height: nextY)
@@ -124,8 +138,109 @@ class DetailViewController : UIViewController {
         
     }
     
+    func callVideoAPI(webView: WKWebView, id: String) {
+        
+        let getMoviesListAPI = "https://api.themoviedb.org/3/movie/\(id)/videos?api_key=\(api_key)&language=en-US"
+        print(getMoviesListAPI)
+        AF.request(getMoviesListAPI).responseJSON(completionHandler: { (response) in
+            
+            self.hud.dismiss(afterDelay: 4.0)
+            
+            switch response.result {
+            case .success:
+                // get json
+                let jsonData = JSON(response.data!)
+                
+                print(jsonData)
+                
+                if jsonData["results"].arrayValue.count == 0 {
+                    //some sort of error appears, no trailers to sho
+                    webView.isHidden = true
+                    self.videoContainer.text = "No Trailers found\nin database.."
+                }else{
+                    
+                    var youtubeLink = ""
+                    
+                    for i in 0..<jsonData["results"].arrayValue.count {
+                        
+                        let innerJson : JSON = jsonData["results"].arrayValue[i]
+                        
+                        if innerJson["site"].stringValue.lowercased() == "youtube" && innerJson["type"].stringValue.lowercased() == "trailer" && innerJson["key"].stringValue != "" {
+                            
+                            youtubeLink = "https://www.youtube.com/embed/\(innerJson["key"].stringValue)"
+                            break
+                        }
+                        
+                    }
+                    
+                    print("youtube link = \(youtubeLink)")
+                    
+                    if youtubeLink == "" {
+                        self.videoContainer.text = "No Trailers found\nin database.."
+                    }else{
+                        webView.load(URLRequest(url: URL(string: youtubeLink)!))
+                    }
+                    
+                }
+                
+                break
+            case .failure(let error):
+                print("error -> \(error.localizedDescription)")
+                
+                self.showError(title: "Youtube Trailer Error", msg: "\(error.localizedDescription)")
+                
+                break
+            }
+            
+        })
+        
+    }
+    
+    var reviewsForMovie : [JSON] = []
+    
+    var hud2 = JGProgressHUD(style: .dark)
+    
     @objc func showReviews() {
-        showError(title: "Sorry Unimplemented", msg: "Show Reviews would be the same as the tableview at home screen. The only difference is that reviews can be long or can be short. I would use a UIButton on each tableviewcell and set height of cell to 50. When user taps on cell, a popup will show the whole content of the review.", end: "Ok, I Understand.")
+        
+        hud2.show(in: self.view)
+        
+        let getMovieReviewsAPI = "https://api.themoviedb.org/3/movie/\(dictToShow["id"].stringValue)/reviews?api_key=\(api_key)&language=en-US"
+        print(getMovieReviewsAPI)
+        AF.request(getMovieReviewsAPI).responseJSON(completionHandler: { (response) in
+            
+            self.hud2.dismiss()
+            
+            switch response.result {
+            case .success:
+                // get json
+                let jsonData = JSON(response.data!)
+                
+                print(jsonData)
+                
+                if jsonData["results"].arrayValue.count == 0 {
+                    //some sort of error appears, no reviews to show yet
+                    
+                    self.showError(title: "Movie Reviews", msg: "There are no reviews available yet for this movie.")
+                    
+                }else{
+                    
+                    self.reviewsForMovie = jsonData["results"].arrayValue
+                    self.performSegue(withIdentifier: "to_reviews", sender: self)
+                    
+                }
+                
+                break
+            case .failure(let error):
+                print("error -> \(error.localizedDescription)")
+                
+                self.showError(title: "Movie Reviews Error", msg: "\(error.localizedDescription)")
+                
+                break
+            }
+            
+        })
+        
+        //showError(title: "Sorry Unimplemented", msg: "Show Reviews would be the same as the tableview at home screen. The only difference is that reviews can be long or can be short. I would use a UIButton on each tableviewcell and set height of cell to 50. When user taps on cell, a popup will show the whole content of the review.", end: "Ok, I Understand.")
     }
     
     @objc func go_back(sender: UIButton) {
@@ -138,6 +253,15 @@ class DetailViewController : UIViewController {
         let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: end, style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "to_reviews" {
+            let nvc = segue.destination as! ReviewsViewController
+            nvc.reviewsArrayToShow = reviewsForMovie
+        }
         
     }
     

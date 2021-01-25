@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E041E3A25BD9B32002429E2 /* ReviewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E041E3925BD9B32002429E2 /* ReviewsViewController.swift */; };
 		8E1E3E37250757CF00852034 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1E3E36250757CF00852034 /* DetailViewController.swift */; };
 		8E84491D2506297A0025514F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E84491C2506297A0025514F /* AppDelegate.swift */; };
 		8E84491F2506297A0025514F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E84491E2506297A0025514F /* SceneDelegate.swift */; };
@@ -20,6 +21,7 @@
 /* Begin PBXFileReference section */
 		0B345512A711C31AA914D408 /* Pods_BUMN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BUMN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D17BBB34DFAE7D65D9234D1 /* Pods-BUMN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BUMN.debug.xcconfig"; path = "Target Support Files/Pods-BUMN/Pods-BUMN.debug.xcconfig"; sourceTree = "<group>"; };
+		8E041E3925BD9B32002429E2 /* ReviewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsViewController.swift; sourceTree = "<group>"; };
 		8E1E3E36250757CF00852034 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		8E8449192506297A0025514F /* BUMN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BUMN.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E84491C2506297A0025514F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				8E84491E2506297A0025514F /* SceneDelegate.swift */,
 				8E8449202506297A0025514F /* ViewController.swift */,
 				8E8449222506297A0025514F /* Main.storyboard */,
+				8E041E3925BD9B32002429E2 /* ReviewsViewController.swift */,
 				8E1E3E36250757CF00852034 /* DetailViewController.swift */,
 				8E844925250629830025514F /* Assets.xcassets */,
 				8E844927250629830025514F /* LaunchScreen.storyboard */,
@@ -210,6 +213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E8449212506297A0025514F /* ViewController.swift in Sources */,
+				8E041E3A25BD9B32002429E2 /* ReviewsViewController.swift in Sources */,
 				8E84491D2506297A0025514F /* AppDelegate.swift in Sources */,
 				8E84491F2506297A0025514F /* SceneDelegate.swift in Sources */,
 				8E1E3E37250757CF00852034 /* DetailViewController.swift in Sources */,

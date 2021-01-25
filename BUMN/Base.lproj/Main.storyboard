@@ -35,10 +35,28 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="xld-tF-S1C"/>
                     </view>
+                    <connections>
+                        <segue destination="4xY-K8-awN" kind="presentation" identifier="to_reviews" modalPresentationStyle="fullScreen" id="NXh-1t-m64"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9vE-AU-uZD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1254" y="79"/>
+        </scene>
+        <!--Reviews View Controller-->
+        <scene sceneID="Lwk-8h-zaE">
+            <objects>
+                <viewController id="4xY-K8-awN" customClass="ReviewsViewController" customModule="BUMN" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UIk-y6-vmU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="lbA-8N-Hye"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gah-06-D7w" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2236" y="67"/>
         </scene>
     </scenes>
 </document>
